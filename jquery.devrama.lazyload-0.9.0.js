@@ -1,5 +1,5 @@
 /**
- * Devrama-Lazyload Version 0.9.0
+ * Devrama-Lazyload Version 0.9.1
  * Developed by devrama.com
  * 
  * Licensed under the MIT license:
