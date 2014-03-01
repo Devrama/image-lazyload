@@ -4,9 +4,11 @@
     "description": "'Devrama Lazyload' loads images in document and containers as you scroll down. This makes the page load faster and reduce server traffic since the client loads the images in the region what they look at. You can use 'Devrama Lazyload' for the entire document or the containers.",
     "keywords": [
         "image",
-        "lazyload"
+	"load",
+        "lazyload",
+	"lazy"
     ],
-    "version": "0.9.2",
+    "version": "0.9.3",
     "author": {
         "name": "WON JONG YOO",
         "url": "http://devrama.com"

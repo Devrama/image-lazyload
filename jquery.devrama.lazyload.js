@@ -1,5 +1,5 @@
 /**
- * Devrama-Lazyload Version 0.9.1
+ * Devrama-Lazyload Version 0.9.3
  * Developed by devrama.com
  * 
  * Licensed under the MIT license:
@@ -31,7 +31,7 @@
 		}
 		else{
 			this.type = 'window';
-			this.$element = $('body');
+			this.$element = $(document);
 			this.$container = $(window); 
 		}
 	};
@@ -40,6 +40,7 @@
 		constructor: DrLazyload,
 		
 		_init: function(){
+			this.$element.find('.'+this.options.classBackupLink).css('display', 'none');
 			this._init_loading_list();
 			this._on_scroll();
 			
@@ -59,13 +60,33 @@
 			var transparent_data = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
 			
 			this.$element.find('[data-'+this.options.data_attr_name+']').each(function(index, value){
-				that.loading_list[index] = this;
 				
-				$(this).attr('src', transparent_data);
+				var size = null;
 				if($(this).data('size')){
-					var size = $(this).data('size').split(":");
-					if(size[0] != '') $(this).css('width', size[0]+'px');
-					if(size[1] != '') $(this).css('height', size[1]+'px');
+					size = $(this).data('size').split(":");
+				}
+				
+				var $img;
+				if($(this).prop('nodeName') == 'A'){
+					var lazysrc
+					if($(this).data(that.options.data_attr_name) && $(this).data(that.options.data_attr_name) != '')
+						lazysrc = $(this).data(that.options.data_attr_name);
+					else
+						lazysrc = $(this).attr('href');
+					
+					$(this).replaceWith('<img src="" class="lazyload-'+index+'"/>');
+					$img = that.$element.find('.lazyload-'+index+':first');
+					$img.data(that.options.data_attr_name, lazysrc);
+				}
+				else {
+					$img = $(this);
+				}
+				
+				that.loading_list[index] = $img;
+				$img.attr('src', transparent_data);
+				if(size !== null){
+					if(size[0] != '') $img.css('width', size[0]+'px');
+					if(size[1] != '') $img.css('height', size[1]+'px');
 				}
 				
 			});
@@ -77,9 +98,9 @@
 			
 			var container_top = this.$container.scrollTop() + this.$container.height();
 			
-			$.each(this.loading_list, function(index, value){
-				if(that.type == 'window') image_position = $(value).offset();
-				else image_position = $(value).position();
+			$.each(this.loading_list, function(index, $img){
+				if(that.type == 'window') image_position = $img.offset();
+				else image_position = $img.position();
 				/*
 				console.log('index '+index);
 				console.log('photo-top '+image_position.top);
@@ -88,7 +109,7 @@
 				console.log('container-top '+container_top);
 				console.log('----------------------------');
 				*/
-				if(image_position.top + $(value).outerHeight() >= that.$container.scrollTop() &&
+				if(image_position.top + $img.outerHeight() >= that.$container.scrollTop() &&
 						image_position.top <= container_top){
 					var data_url = that.options.data_attr_name;
 					var $element = $(this);
@@ -113,22 +134,6 @@
 		    		};
 						
 					tmp_image.src = $(this).data(data_url);
-					if(!tmp_image){
-						$element.hide();
-						$element.attr('src', $element.data(data_url));
-						switch(that.options.effect){
-							case 'fadein':
-								$element.fadeIn();
-								break;
-							case 'none':
-								$element.show();
-								break;
-							default:
-								$element.show();
-								break;
-						}
-						
-					}
 					
 					
 					delete that.loading_list[index];
