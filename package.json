@@ -1,0 +1,30 @@
+{
+  "name": "jquery-image-lazyload",
+  "version": "0.9.3",
+  "description": "jQuery plugin - Image Lazyload",
+  "main": "jquery.devrama.lazyload.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Devrama/image-lazyload.git"
+  },
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "image",
+    "load",
+    "lazyload"
+  ],
+  "author": "WON JONG YOO",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Devrama/image-lazyload/issues"
+  },
+  "homepage": "http://devrama.com/static/devrama-lazyload/",
+  "dependencies": {
+    "jquery": ">=1.7"
+  },
+  "devDependencies": {}
+}
